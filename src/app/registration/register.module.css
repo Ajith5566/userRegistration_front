@@ -1,0 +1,77 @@
+#form_secton{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color:  #41B3A2;
+}
+#form_tag{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+#form_div{
+    min-height: 30rem;
+    width: 30rem;
+    background-color:#0D7C66;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 10px;
+}
+.input{
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+    width: 90%;
+    padding-right: 10px;
+}
+#button{
+    height: 40px;
+    width: 100px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: none;
+    color: #FFFFFF;
+    font-weight: 600;
+    background-color: #125B9A;
+}
+.label{
+    width: 100%;
+    display: flex;
+    color: white;
+    font-size: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+
+
+}
+
+@media (max-width: 768px) {
+    #form_div{
+        width: 100%;
+    }
+    .input{
+        font-weight: 600;
+    }
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+    /* Styles for iPad in portrait orientation */
+    #form_div{
+        width: 100%;
+    }
+    .input{
+        font-weight: 600;
+    }
+  }
+  
