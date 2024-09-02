@@ -30,8 +30,8 @@
     padding-left: 10px;
     border-radius: 10px;
     border: none;
-    margin-top: 10px;
-    width: 90%;
+
+    width: 100%;
     padding-right: 10px;
 }
 #button{
@@ -51,9 +51,12 @@
     font-size: 15px;
     justify-content: center;
     align-items: center;
+
+
+}
+.iput_div{
+    width: 90%;
     margin-top: 10px;
-
-
 }
 
 @media (max-width: 768px) {
