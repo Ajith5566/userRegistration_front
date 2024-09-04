@@ -9,12 +9,46 @@ function Dashboard() {
     aadhaar:""  
   });
   console.log(userData);
-  /* usestate to store pincode */
-  const [pincode, setPincodeData] = useState({
-     zipcode:""  
+
+    /* usestate to store pincode */
+    const [pincode, setPincodeData] = useState({
+      zipcode:""  
+   });
+   console.log(pincode);
+
+  const [errors, setErrors] = useState<any>({
+    aadhaar: "",
+    zipocde:""
   });
+
+  /* error validation function */
+  const validate = () => {
+    let valid = true;
+    const newErrors = {
+      aadhaar:"",
+      zipcode:""
+    }
+    if (!userData.aadhaar) {
+      newErrors.aadhaar = "aadhaar number is required";
+      valid = false;
+    } else if (!/^\d{12}$/.test(userData.aadhaar)) {
+      newErrors.aadhaar = "aadhaar number must be 12 digits";
+      valid = false;
+   };
+   if (!pincode.zipcode) {
+    newErrors.zipcode = "pincode number is required";
+    valid = false;
+  } else if (!/^\d{6}$/.test(pincode.zipcode)) {
+    newErrors.zipcode = "Pincode number must be 6 digits";
+    valid = false;
+  }
+  setErrors(newErrors);
+    return valid;
+}
+
+
+
   /* to store place names */
-  console.log(pincode);
   const [names, setNames] = useState([]);
 
   /* to store district */
@@ -31,12 +65,13 @@ function Dashboard() {
   const {aadhaar}=userData;
   /* console.log(userData); */
   
-  if(!aadhaar){
-    alert('fil form completly')
-  }
-  else{
+
+  if(validate()){
     const result= await aadhaarVerify(userData);
-    console.log(result);
+    if(result.status==200)
+    {
+      alert(result.data.data);
+    }
     
   }
  }
@@ -47,10 +82,8 @@ function Dashboard() {
   const {zipcode} =pincode;
   console.log(pincode);
   
-  if(!zipcode){
-    alert('fil form completly')
-  }
-  else{
+  
+  if(validate()){
     const result= await pincodeVerify(pincode.zipcode);
     console.log(result);
     //checking status
@@ -105,16 +138,24 @@ function Dashboard() {
     <>
       <section id={styles.register_sec}>
         <div id={styles.register_div}>
-          <input type="text" placeholder='enter adhaar number' className={styles.input} onChange={(e) =>setUserData({ ...userData, aadhaar: e.target.value }) }/>
+          <div className={styles.box}>
+            {/* adhaar */}
+            <input type="text" placeholder='enter adhaar number' className={styles.input} onChange={(e) =>setUserData({ ...userData, aadhaar: e.target.value }) }/>
+            {errors.aadhaar && <span style={{color:'#AA0000'}} className={styles.error}>{errors.aadhaar}</span>}
+          </div>
           <button type='button'className={styles.button_style}  onClick={handleVerify}>verify</button>
-          <input type="text" placeholder='enter pincode'  className={styles.input} onChange={(e) =>setPincodeData({ ...pincode, zipcode: e.target.value }) }/>
+          {/* pincode */}
+         <div className={styles.box}>
+            <input type="text" placeholder='enter pincode'  className={styles.input} onChange={(e) =>setPincodeData({ ...pincode, zipcode: e.target.value }) }/>
+            {errors.zipcode && <span style={{color:'#AA0000'}} className={styles.error}>{errors.zipcode}</span>}
+          </div>
           <button type='button'className={styles.button_style}  onClick={handlepincode}>Fetch data</button>
         </div>
-        <div>
-          <p>Place:{names}</p>
-          <p>District:{district[0]}</p>
-          <p>State:{state[0]}</p>
-          <p>Country:{country[0]}</p>
+        <div id={styles.location}>
+          <p><span>Place:</span>{names}</p>
+          <p><span>District:</span>{district[0]}</p>
+          <p><span>State:</span>{state[0]}</p>
+          <p><span>Country:</span>{country[0]}</p>
         </div>
       </section>
       

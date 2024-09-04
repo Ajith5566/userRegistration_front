@@ -1,0 +1,46 @@
+#sec{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #16423C;
+}
+#sec_div{
+    height: 30rem;
+    width: 30rem;
+    background-color:#6A9C89;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    flex-direction: column;
+    padding: 10px;
+}
+.input{
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 10px;
+    border: none;
+    width: 100%;
+    padding-right: 10px;
+}
+.form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    flex-direction: column;
+    margin-top: 10px;
+}
+.sendcodebutton{
+    height: 40px;
+    width: 100px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: none;
+    color: #FFFFFF;
+    font-weight: 600;
+    background-color: #125B9A;
+}

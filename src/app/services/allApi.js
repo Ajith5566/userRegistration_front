@@ -45,3 +45,11 @@ export const sentotp= async (reqbody) => {
         console.error("Error sending OTP request:", error);
     }
 };
+
+//otp verification
+export const updateAccout=async(reqbody)=>{
+    //console.log(reqbody);
+    return await commonApi('PUT',`${BASE_URL}/user/updation`,reqbody)
+    
+    
+}

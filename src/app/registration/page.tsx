@@ -13,7 +13,8 @@ function Registration() {
     phone_number:"",
     email: "",
     dob:"",
-    password: ""
+    password: "",
+    verification:"false"
     
   });
   /* to store error */
@@ -90,9 +91,10 @@ function Registration() {
             phone_number:"",
             email: "",
             dob:"",
-            password: ""           
+            password: "",
+            verification:""          
           });
-          router.push('/login');
+          router.push('/otpverification');
         }
         else{
           alert(result.response.data);
