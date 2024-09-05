@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react' 
-import { aadhaarVerify, pincodeVerify } from '../services/allApi';
+import { aadhaarVerify, bankverify, gstverify, panverify, pincodeVerify } from '../services/allApi';
 import styles from '../dashboard/verification.module.css'
 function Dashboard() {
   
@@ -15,18 +15,36 @@ function Dashboard() {
       zipcode:""  
    });
    console.log(pincode);
+   /* to store pan */
+   const [pan,setPan]=useState({
+    pan_number:""
+   });
+   console.log(pan);
+   //to srtore bank details
+   const [bank,setBank]=useState({
+    bank_number:"",
+    ifsc:""
+   })
+   console.log(bank);
+   //gst number
+   const [gst,setGst]=useState({
+    gst_number:""
+   })
+   
 
   const [errors, setErrors] = useState<any>({
     aadhaar: "",
-    zipocde:""
+    
   });
+  const[error2,setError2]=useState<any>({
+    zipocde:""
+  })
 
   /* error validation function */
   const validate = () => {
     let valid = true;
     const newErrors = {
       aadhaar:"",
-      zipcode:""
     }
     if (!userData.aadhaar) {
       newErrors.aadhaar = "aadhaar number is required";
@@ -35,16 +53,26 @@ function Dashboard() {
       newErrors.aadhaar = "aadhaar number must be 12 digits";
       valid = false;
    };
-   if (!pincode.zipcode) {
-    newErrors.zipcode = "pincode number is required";
-    valid = false;
-  } else if (!/^\d{6}$/.test(pincode.zipcode)) {
-    newErrors.zipcode = "Pincode number must be 6 digits";
-    valid = false;
-  }
+   
   setErrors(newErrors);
     return valid;
-}
+ }
+  const validate1=()=>{
+    let valid = true;
+    const newErrors = {
+      zipcode:""
+    }
+    if (!pincode.zipcode) {
+      newErrors.zipcode = "pincode number is required";
+      valid = false;
+    } else if (!/^\d{6}$/.test(pincode.zipcode)) {
+      newErrors.zipcode = "Pincode number must be 6 digits";
+      valid = false;
+    }
+    setError2(newErrors);
+      return valid
+
+  }
 
 
 
@@ -83,7 +111,7 @@ function Dashboard() {
   console.log(pincode);
   
   
-  if(validate()){
+  if(validate1()){
     const result= await pincodeVerify(pincode.zipcode);
     console.log(result);
     //checking status
@@ -127,30 +155,104 @@ function Dashboard() {
     }); */
     }
     else{
-      alert('error');
+      alert('enter a valid pincode');
     }
     
   }
  }
+//function to verify pan number
+const handlepan = async (e: any) => {
+  e.preventDefault();
+  
+  // Ensure the pan_number is in uppercase and is a string
+  let pan_number = pan.pan_number?.toUpperCase(); // Convert to uppercase
 
+  if (typeof pan_number !== 'string' || pan_number.trim() === '') {
+    console.error('Invalid PAN number format');
+    // Handle invalid PAN number format (e.g., show an error message)
+    return;
+  }
 
+  try {
+    // Pass the uppercase PAN number to the panverify function
+    const result = await panverify(pan_number);
+    console.log('PAN Verification Result:', result.data);
+    
+    // Handle the result (e.g., show a success message, update UI, etc.)
+    if (result.status === 200) {
+      alert('PAN verification successful!');
+      // Update the UI or state as needed
+    } else {
+      alert('PAN verification failed.');
+    }
+
+  } catch (error: any) {
+    console.error('PAN Verification Failed:', error.message);
+    alert('An error occurred during PAN verification. Please try again later.');
+    // Handle the error (e.g., show an error message, etc.)
+  }
+};
+//bank
+const handlebank =async(e:any)=>{
+  e.preventDefault();
+  const {bank_number,ifsc}=bank;
+  console.log(bank);
+  
+
+ /*  const result = await bankverify();
+  console.log(result); */
+  
+}
+
+//gst
+const handlegst =async(e:any)=>{
+  e.preventDefault();
+
+  const result=await gstverify();
+  console.log(result);
+  
+}
   return (
     <>
       <section id={styles.register_sec}>
         <div id={styles.register_div}>
+
           <div className={styles.box}>
             {/* adhaar */}
             <input type="text" placeholder='enter adhaar number' className={styles.input} onChange={(e) =>setUserData({ ...userData, aadhaar: e.target.value }) }/>
             {errors.aadhaar && <span style={{color:'#AA0000'}} className={styles.error}>{errors.aadhaar}</span>}
           </div>
-          <button type='button'className={styles.button_style}  onClick={handleVerify}>verify</button>
+          <button type='button'className={styles.button_style}  onClick={handleVerify}>validate</button>
+
           {/* pincode */}
          <div className={styles.box}>
             <input type="text" placeholder='enter pincode'  className={styles.input} onChange={(e) =>setPincodeData({ ...pincode, zipcode: e.target.value }) }/>
-            {errors.zipcode && <span style={{color:'#AA0000'}} className={styles.error}>{errors.zipcode}</span>}
+            {error2.zipcode && <span style={{color:'#AA0000'}} className={styles.error}>{error2.zipcode}</span>}
           </div>
           <button type='button'className={styles.button_style}  onClick={handlepincode}>Fetch data</button>
+
+          {/* pan verification */}
+          <div className={styles.box}>
+            <input type="text" placeholder='enter pan '  className={styles.input} onChange={(e) =>setPan({ ...pan, pan_number: e.target.value }) }/>        
+          </div>
+          <button type='button'className={styles.button_style}  onClick={handlepan}>validate</button>
+
+          {/* bank details */}
+          <div className={styles.box}>
+            <input type="text" placeholder='enter bank number '  className={styles.input} onChange={(e) =>setBank({ ...bank, bank_number: e.target.value }) }/> 
+            <input type="text" placeholder='enter bank ifsc code'  className={styles.input} onChange={(e) =>setBank({ ...bank, ifsc: e.target.value }) }/>        
+          </div>
+          <button type='button'className={styles.button_style}  onClick={handlebank}>validate</button>
+
+            {/* gst */}
+          <div className={styles.box}>
+              <input type="text" placeholder='enter gst number'  className={styles.input} onChange={(e) =>setGst({ ...gst, gst_number: e.target.value }) }/>        
+          </div>
+            <button type='button'className={styles.button_style}  onClick={handlegst}>validate</button>
         </div>
+         
+       
+        
         <div id={styles.location}>
           <p><span>Place:</span>{names}</p>
           <p><span>District:</span>{district[0]}</p>

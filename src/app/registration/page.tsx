@@ -14,7 +14,8 @@ function Registration() {
     email: "",
     dob:"",
     password: "",
-    verification:"false"
+    verification:"false",
+    phone_verification:"false",
     
   });
   /* to store error */
@@ -92,7 +93,8 @@ function Registration() {
             email: "",
             dob:"",
             password: "",
-            verification:""          
+            verification:"",
+            phone_verification:""          
           });
           router.push('/otpverification');
         }

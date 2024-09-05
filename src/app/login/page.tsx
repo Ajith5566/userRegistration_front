@@ -26,7 +26,7 @@ function Login() {
       const result= await loginApi(userData);
       console.log(result);
       if(result.status==200){
-        alert('registration successfull');
+        alert('Login successfull');
         setUserData({
           email: "",
           password: "" 
